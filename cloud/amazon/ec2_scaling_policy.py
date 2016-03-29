@@ -71,7 +71,6 @@ EXAMPLES = '''
 '''
 
 
-from ansible.module_utils.basic import *
 from ansible.module_utils.ec2 import *
 
 try:
@@ -186,6 +185,7 @@ def main():
     elif state == 'absent':
         delete_scaling_policy(connection, module)
 
+from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

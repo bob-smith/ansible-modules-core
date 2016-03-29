@@ -122,10 +122,6 @@ try:
 except ImportError, e:
     module.fail_json(msg="Unable to import up2date_client.  Is 'rhn-client-tools' installed?\n%s" % e)
 
-# INSERT REDHAT SNIPPETS
-from ansible.module_utils.redhat import *
-# INSERT COMMON SNIPPETS
-from ansible.module_utils.basic import *
 
 class Rhn(RegistrationBase):
 
@@ -363,5 +359,9 @@ def main():
 
             module.exit_json(changed=True, msg="System successfully unregistered from %s." % rhn.hostname)
 
+# INSERT REDHAT SNIPPETS
+from ansible.module_utils.redhat import *
+# INSERT COMMON SNIPPETS
+from ansible.module_utils.basic import *
 
 main()

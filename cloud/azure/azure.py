@@ -189,7 +189,6 @@ import datetime
 import os
 import time
 from urlparse import urlparse
-from ansible.module_utils.facts import * # TimeoutError
 
 AZURE_LOCATIONS = ['South Central US',
                    'Central US',
@@ -615,5 +614,7 @@ class Wrapper(object):
 
 # import module snippets
 from ansible.module_utils.basic import *
+from ansible.module_utils.facts import * # TimeoutError
+
 if __name__ == '__main__':
     main()

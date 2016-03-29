@@ -203,7 +203,6 @@ to "replace_instances":
 import time
 import logging as log
 
-from ansible.module_utils.basic import *
 from ansible.module_utils.ec2 import *
 log.getLogger('boto').setLevel(log.CRITICAL)
 #log.basicConfig(filename='/tmp/ansible_ec2_asg.log',level=log.DEBUG, format='%(asctime)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
@@ -827,6 +826,8 @@ def main():
     if create_changed or replace_changed:
         changed = True
     module.exit_json( changed = changed, **asg_properties )
+
+from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

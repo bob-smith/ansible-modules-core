@@ -46,9 +46,6 @@ EXAMPLES = '''
 import socket
 from distutils.version import LooseVersion
 
-# import module snippets
-from ansible.module_utils.basic import *
-
 
 class UnimplementedStrategy(object):
     def __init__(self, module):
@@ -665,5 +662,7 @@ def main():
                                         ansible_nodename=name,
                                         ansible_fqdn=socket.getfqdn(),
                                         ansible_domain='.'.join(socket.getfqdn().split('.')[1:])))
+
+from ansible.module_utils.basic import *
 
 main()
