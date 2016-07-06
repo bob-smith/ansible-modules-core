@@ -20,7 +20,7 @@ DOCUMENTATION = """
 ---
 module: eos_command
 version_added: "2.1"
-author: "Peter sprygada (@privateip)"
+author: "Peter Sprygada (@privateip)"
 short_description: Run arbitrary command on EOS device
 description:
   - Sends an aribtrary set of commands to an EOS node and returns the results
@@ -37,7 +37,7 @@ options:
         module is not returned until the condition is satisfied or
         the number of retries has been exceeded.
     required: true
-  waitfor:
+  wait_for:
     description:
       - Specifies what to evaluate from the output of the command
         and what conditionals to apply.  This argument will cause
@@ -46,6 +46,8 @@ options:
         by the configured retries, the task fails.  See examples.
     required: false
     default: null
+    aliases: ['waitfor']
+    version_added: "2.2"
   retries:
     description:
       - Specifies the number of retries a command should be tried
@@ -65,9 +67,6 @@ options:
 """
 
 EXAMPLES = """
-- eos_command:
-    commands: "{{ lookup('file', 'commands.txt') }}"
-
 - eos_command:
     commands:
         - show interface {{ item }}
@@ -110,11 +109,7 @@ failed_conditions:
   sample: ['...', '...']
 """
 
-import time
-import shlex
-import re
-
-INDEX_RE = re.compile(r'(\[\d+\])')
+import itertools
 
 def iterlines(stdout):
     for item in stdout:
@@ -124,8 +119,8 @@ def iterlines(stdout):
 
 def main():
     spec = dict(
-        commands=dict(type='list'),
-        waitfor=dict(type='list'),
+        commands=dict(type='list', required=True),
+        wait_for=dict(type='list', aliases=['waitfor']),
         retries=dict(default=10, type='int'),
         interval=dict(default=1, type='int')
     )
@@ -134,50 +129,51 @@ def main():
                         supports_check_mode=True)
 
     commands = module.params['commands']
+    conditionals = module.params['wait_for'] or list()
 
-    retries = module.params['retries']
-    interval = module.params['interval']
+    warnings = list()
+
+    runner = CommandRunner(module)
+
+    redacted = set()
+    for index, cmd in enumerate(commands):
+        if module.check_mode and not cmd.startswith('show'):
+            warnings.append('only show commands are supported when using '
+                            'check mode, not executing `%s`' % cmd)
+            cmd = 'help'
+            redacted.add(index)
+        runner.add_command(cmd)
+
+    for item in conditionals:
+        runner.add_conditional(item)
+
+    runner.retries = module.params['retries']
+    runner.interval = module.params['interval']
 
     try:
-        queue = set()
-        for entry in (module.params['waitfor'] or list()):
-            queue.add(Conditional(entry))
-    except AttributeError:
+        runner.run()
+    except FailedConditionsError:
         exc = get_exception()
-        module.fail_json(msg=exc.message)
+        module.fail_json(msg=str(exc), failed_conditions=exc.failed_conditions)
 
-    result = dict(changed=False)
+    result = dict(changed=False, warnings=warnings)
 
-    while retries > 0:
-        response = module.execute(commands)
-        result['stdout'] = response
+    result['stdout'] = list()
+    for index, item in enumerate(runner.items):
+        if index in redacted:
+            item = 'not executed due to check_mode'
+        elif commands[index].endswith('json'):
+            item = json.loads(item)
+        result['stdout'].append(item)
 
-        for index, cmd in enumerate(commands):
-            if cmd.endswith('json'):
-                response[index] = module.from_json(response[index])
-
-        for item in list(queue):
-            if item(response):
-                queue.remove(item)
-
-        if not queue:
-            break
-
-        time.sleep(interval)
-        retries -= 1
-    else:
-        failed_conditions = [item.raw for item in queue]
-        module.fail_json(msg='timeout waiting for value', failed_conditions=failed_conditions)
-
+    result['stdout'] = runner.items.values()
     result['stdout_lines'] = list(iterlines(result['stdout']))
-    return module.exit_json(**result)
 
+    module.exit_json(**result)
 
-from ansible.module_utils.basic import *
-from ansible.module_utils.urls import *
-from ansible.module_utils.shell import *
-from ansible.module_utils.netcfg import *
+from ansible.module_utils.netcmd import *
 from ansible.module_utils.eos import *
+
 if __name__ == '__main__':
-        main()
+    main()
 
