@@ -39,7 +39,7 @@ notes:
 options:
     src:
         description:
-            - full path to the license. Can be local path or http url
+            - full path to the license. Can be local path or HTTP URL
     force:
         description:
             - force installation of a license. Typically not needed.
@@ -48,6 +48,7 @@ options:
               option in a playbook will break the idempotent state machine of
               the module and cause the switchd notification to kick in all the
               time, causing a disruption.
+        required: true
 
 '''
 EXAMPLES = '''

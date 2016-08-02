@@ -23,8 +23,8 @@ author: "Cumulus Networks (@CumulusNetworks)"
 short_description: Configures a bridge port on Cumulus Linux
 description:
     - Configures a bridge interface on Cumulus Linux To configure a bond port
-      use the cl_bond module. To configure any other type of interface use the
-      cl_interface module. Follow the guidelines for bridging found in the
+      use M(cl_bond). To configure any other type of interface use the
+      M(cl_interface). Follow the guidelines for bridging found in the
       Cumulus User Guide at http://docs.cumulusnetworks.com
 options:
     name:
@@ -37,11 +37,11 @@ options:
     ipv4:
         description:
             - list of IPv4 addresses to configure on the interface.
-              use X.X.X.X/YY syntax.
+              Specify in the form I(X.X.X.X/YY).
     ipv6:
         description:
             - list of IPv6 addresses  to configure on the interface.
-              use X:X:X::X/YYY syntax
+              Specify in the form I(X:X:X::X/YYY).
     addr_method:
         description:
             - configures the port to use DHCP.
@@ -82,13 +82,13 @@ options:
         description:
             - interface directory location
         default:
-            - /etc/network/interfaces.d
+            - '/etc/network/interfaces.d'
 
 
 requirements: [ Alternate Debian network interface manager
 ifupdown2 @ github.com/CumulusNetworks/ifupdown2 ]
 notes:
-    - because the module writes the interface directory location. Ensure that
+    - As this module writes the interface directory location you must ensure that
       ``/etc/network/interfaces`` has a 'source /etc/network/interfaces.d/\*' or
       whatever path is mentioned in the ``location`` attribute.
 

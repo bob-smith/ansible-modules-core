@@ -24,8 +24,8 @@ short_description: Configures a front panel port, loopback or
                   management port on Cumulus Linux.
 description:
     - Configures a front panel, sub-interface, SVI, management or loopback port
-      on a Cumulus Linux switch. For bridge ports use the cl_bridge module. For
-      bond ports use the cl_bond module. When configuring bridge related
+      on a Cumulus Linux switch. For bridge ports use M(cl_bridge module). For
+      bond ports use M(cl_bond). When configuring bridge related
       features like the "vid" option, please follow the guidelines for
       configuring "vlan aware" bridging. For more details review the Layer2
       Interface Guide at http://docs.cumulusnetworks.com
@@ -40,19 +40,18 @@ options:
     ipv4:
         description:
             - list of IPv4 addresses to configure on the interface.
-              use X.X.X.X/YY syntax.
+              Specify in the form I(X.X.X.X/YY).
     ipv6:
         description:
             - list of IPv6 addresses  to configure on the interface.
-              use X:X:X::X/YYY syntax
+              Specify in the form I(X:X:X::X/YYY).
     addr_method:
         description:
             - can be loopback for loopback interfaces or dhcp for dhcp
               interfaces.
     speed:
         description:
-            - set speed of the swp(front panel) or management(eth0) interface.
-              speed is in MB
+            - set speed (in MB) of the swp(front panel) or management(eth0) interface.
     mtu:
         description:
             - set MTU. Configure Jumbo Frame by setting MTU to 9000.
@@ -98,12 +97,12 @@ options:
         description:
             - interface directory location
         default:
-            - /etc/network/interfaces.d
+            - '/etc/network/interfaces.d'
 
 requirements: [ Alternate Debian network interface manager - \
 ifupdown2 @ github.com/CumulusNetworks/ifupdown2 ]
 notes:
-    - because the module writes the interface directory location. Ensure that
+    - As this module writes the interface directory location you must ensure that
       ``/etc/network/interfaces`` has a 'source /etc/network/interfaces.d/\*' or
       whatever path is mentioned in the ``location`` attribute.
 

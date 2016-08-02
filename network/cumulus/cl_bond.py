@@ -22,9 +22,9 @@ version_added: "2.1"
 author: "Cumulus Networks (@CumulusNetworks)"
 short_description: Configures a bond port on Cumulus Linux
 description:
-    - Configures a bond interface on Cumulus Linux To configure a bridge port
-      use the cl_bridge module. To configure any other type of interface use the
-      cl_interface module. Follow the guidelines for bonding found in the
+    - Configures a bond interface on Cumulus Linux. To configure a bridge port
+      use M(cl_bridge). To configure any other type of interface use
+      M(cl_interface). Follow the guidelines for bonding found in the
       Cumulus User Guide at http://docs.cumulusnetworks.com
 options:
     name:
@@ -37,11 +37,11 @@ options:
     ipv4:
         description:
             - list of IPv4 addresses to configure on the interface.
-              use X.X.X.X/YY syntax.
+              Specify in the form I(X.X.X.X/YY).
     ipv6:
         description:
-            - list of IPv6 addresses  to configure on the interface.
-              use X:X:X::X/YYY syntax
+            - list of IPv6 addresses to configure on the interface.
+              Specify in the form I(X:X:X::X/YYY).
     addr_method:
         description:
             - configures the port to use DHCP.
@@ -83,7 +83,7 @@ options:
         default: 100
     mode:
         description:
-            - bond mode. as of Cumulus Linux 2.5 only LACP bond mode is
+            - bond mode. As of Cumulus Linux 2.5 only LACP bond mode is
               supported
         default: '802.3ad'
     min_links:
@@ -121,12 +121,12 @@ options:
         description:
             - interface directory location
         default:
-            - /etc/network/interfaces.d
+            - '/etc/network/interfaces.d'
 
 requirements:  [ Alternate Debian network interface manager - \
 ifupdown2 @ github.com/CumulusNetworks/ifupdown2 ]
 notes:
-    - because the module writes the interface directory location. Ensure that
+    - As this module writes the interface directory location you must ensure that
       ``/etc/network/interfaces`` has a 'source /etc/network/interfaces.d/\*' or
       whatever path is mentioned in the ``location`` attribute.
 

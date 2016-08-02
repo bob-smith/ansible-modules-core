@@ -23,9 +23,9 @@ author: "Peter sprygada (@privateip)"
 short_description: Manage Arista EOS device configurations
 description:
   - Manages network device configurations over SSH or eAPI.  This module
-    allows implementors to work with the device running-config.  It
+    allows implementers to work with the device running-config.  It
     provides a way to push a set of commands onto a network device
-    by evaluting the current running-config and only pushing configuration
+    by evaluating the current running-config and only pushing configuration
     commands that are not already configured.  The config source can
     be a set of commands or a template.
 extends_documentation_fragment: eos
@@ -81,23 +81,23 @@ options:
         against the contents of source.  There are times when it is not
         desirable to have the task get the current running-config for
         every task in a playbook.  The I(config) argument allows the
-        implementer to pass in the configuruation to use as the base
-        config for comparision.
+        implementer to pass in the configuration to use as the base
+        config for comparison.
     required: false
     default: null
 """
 
 EXAMPLES = """
-- name: push a configuration onto the device
+- name: Push a configuration onto the device
   eos_template:
     src: config.j2
 
-- name: forceable push a configuration onto the device
+- name: Forceable push a configuration onto the device
   eos_template:
     src: config.j2
     force: yes
 
-- name: provide the base configuration for comparision
+- name: Provide the base configuration for comparison
   eos_template:
     src: candidate_config.txt
     config: current_config.txt

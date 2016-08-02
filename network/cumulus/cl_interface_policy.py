@@ -27,7 +27,7 @@ description:
       "allowed" parameter define what interfaces will be available on the
       switch. If the user runs this module and has an interface configured on
       the switch, but not found in the "allowed" list, this interface will be
-      unconfigured. By default this is `/etc/network/interface.d`
+      unconfigured. By default this is `/etc/network/interface.d`.
       For more details go the Configuring Interfaces at
       http://docs.cumulusnetworks.com
 notes:
