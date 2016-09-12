@@ -33,7 +33,7 @@ options:
     description:
       - The I(rollback_location) specifies the location and filename
         of the rollback checkpoint files.   This argument supports any
-        valid local or remote URL as specified in SROS.
+        valid local or remote URL as specified in SR OS.
     required: false
     default: null
   remote_max_checkpoints:
@@ -56,7 +56,7 @@ options:
     description:
       - The I(rescue_location) specifies the location of the
         rescue file.  This argument supports any valid local
-        or remote URL as specified in SROS.
+        or remote URL as specified in SR OS.
     required: false
     default: null
   state:
