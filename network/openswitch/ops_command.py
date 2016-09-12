@@ -121,7 +121,7 @@ stdout_lines:
   sample: [['...', '...'], ['...'], ['...']]
 
 failed_conditions:
-  description: the conditionals that failed
+  description: The conditionals that failed
   retured: failed
   type: list
   sample: ['...', '...']

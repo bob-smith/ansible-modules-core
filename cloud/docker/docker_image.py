@@ -151,7 +151,7 @@ options:
         type: int
       cpusetcpus:
         description: CPUs in which to allow execution, e.g., "0-3", "0,1"
-        type: str
+        type: string
   use_tls:
     description:
       - "DEPRECATED. Whether to use tls to connect to the docker server. Set to C(no) when TLS will not be used. Set to

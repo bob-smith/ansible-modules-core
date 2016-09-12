@@ -100,30 +100,30 @@ state:
     contains:
         address_prefix:
           description: IP address CIDR.
-          type: str
+          type: string
           example: "10.1.0.0/16"
         id:
           description: Subnet resource path.
-          type: str
+          type: string
           example: "/subscriptions/XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXX/resourceGroups/Testing/providers/Microsoft.Network/virtualNetworks/My_Virtual_Network/subnets/foobar"
         name:
           description: Subnet name.
-          type: str
+          type: string
           example: "foobar"
         network_security_group:
           type: complex
           contains:
             id:
               description: Security group resource identifier.
-              type: str
+              type: string
               example: "/subscriptions/XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXX/resourceGroups/Testing/providers/Microsoft.Network/networkSecurityGroups/secgroupfoo"
             name:
               description: Name of the security group.
-              type: str
+              type: string
               example: "secgroupfoo"
         provisioning_state:
           description: Success or failure of the provisioning event.
-          type: str
+          type: string
           example: "Succeeded"
 '''
 

@@ -176,9 +176,9 @@ vars:
 
 RETURN = """
 updates:
-  description: The set of commands that will be pushed to the remote device
-  returned: always
-  type: when lines is defined
+  description: The set of commands that will be pushed to the remote device.
+  returned: when lines is defined
+  type: list
   sample: ['...', '...']
 backup_path:
   description: The full path to the backup file

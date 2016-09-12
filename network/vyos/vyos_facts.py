@@ -68,7 +68,7 @@ RETURN = """
 ansible_net_config:
   description: The running-config from the device
   returned: when config is configured
-  type: str
+  type: string
 ansible_net_commits:
   descrption: The set of available configuration revisions
   returned: when present
@@ -76,19 +76,19 @@ ansible_net_commits:
 ansible_net_hostname:
   description: The configured system hostname
   returned: always
-  type: str
+  type: string
 ansible_net_model:
   description: The device model string
   returned: always
-  type: str
+  type: string
 ansible_net_serialnum:
   description: The serial number of the device
   returned: always
-  type: str
+  type: string
 ansible_net_version:
   description: The version of the software running
   returned: always
-  type: str
+  type: string
 ansible_net_neighbors:
   description: The set of LLDP neighbors
   returned: when interface is configured

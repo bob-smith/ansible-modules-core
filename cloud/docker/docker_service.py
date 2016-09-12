@@ -46,7 +46,7 @@ options:
       description:
         - Provide a project name. If not provided, the project name is taken from the basename of C(project_src).
         - Required when no C(definition) is provided.
-      type: str
+      type: string
       required: false
   files:
       description:
@@ -63,7 +63,7 @@ options:
         - absent
         - present
       default: present
-      type: str
+      type: string
       required: false
   services:
       description:
@@ -99,7 +99,7 @@ options:
         - By default containers will be recreated when their configuration differs from the service definition.
         - Setting to I(never) ignores configuration differences and leaves existing containers unchanged.
         - Setting to I(always) forces recreation of all existing containers.
-      type: str
+      type: string
       required: false
       choices:
         - always
@@ -135,7 +135,7 @@ options:
   remove_images:
       description:
         - Use with state I(absent) to remove the all images or only local images.
-      type: str
+      type: string
       required: false
       default: null
   remove_volumes:
@@ -327,7 +327,7 @@ service:
               image:
                   description: Name of the image from which the container was built.
                   returned: success
-                  type: str
+                  type: string
                   example: postgres
               labels:
                   description: Meta data assigned to the container.
@@ -357,7 +357,7 @@ service:
                       globalIPv6:
                           description: IPv6 address assigned to the container.
                           returned: success
-                          type: str
+                          type: string
                           example: ''
                       globalIPv6PrefixLen:
                           description: IPv6 subnet length.
@@ -372,7 +372,7 @@ service:
                       macAddress:
                           description: Mac Address assigned to the virtual NIC.
                           returned: success
-                          type: str
+                          type: string
                           example: "02:42:ac:11:00:02"
               state:
                   description: Information regarding the current disposition of the container.
@@ -387,7 +387,7 @@ service:
                       status:
                           description: Description of the running state.
                           returned: success
-                          type: str
+                          type: string
                           example: running
 
 actions:

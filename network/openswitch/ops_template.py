@@ -90,7 +90,7 @@ updates:
   type: dict
   sample: {obj, obj}
 responses:
-  desription: returns the responses when configuring using cli
+  description: returns the responses when configuring using cli
   returned: when transport == cli
   type: list
   sample: [...]
