@@ -28,7 +28,7 @@ description:
     by evaluating the current running-config and only pushing configuration
     commands that are not already configured.  The config source can
     be a set of commands or a template.
-deprecated: Deprecated in 2.2. Use eos_config instead
+deprecated: Deprecated in 2.2. Use ios_config instead
 extends_documentation_fragment: ios
 options:
   src:
@@ -94,7 +94,7 @@ EXAMPLES = """
     src: config.j2
     force: yes
 
-- name: provide the base configuration for comparision
+- name: provide the base configuration for comparison
   ios_template:
     host: hostname
     username: foo

@@ -159,7 +159,7 @@ class keydict(dict):
 
     def __init__(self, *args, **kw):
         super(keydict,self).__init__(*args, **kw)
-        self.itemlist = super(keydict,self).keys()
+        self.itemlist = list(super(keydict,self).keys())
     def __setitem__(self, key, value):
         self.itemlist.append(key)
         super(keydict,self).__setitem__(key, value)
@@ -243,25 +243,22 @@ def parseoptions(module, options):
     '''
     options_dict = keydict() #ordered dict
     if options:
-        try:
-            # the following regex will split on commas while
-            # ignoring those commas that fall within quotes
-            regex = re.compile(r'''((?:[^,"']|"[^"]*"|'[^']*')+)''')
-            parts = regex.split(options)[1:-1]
-            for part in parts:
-                if "=" in part:
-                    (key, value) = part.split("=", 1)
-                    if options_dict.has_key(key):
-                        if isinstance(options_dict[key], list):
-                            options_dict[key].append(value)
-                        else:
-                            options_dict[key] = [options_dict[key], value]
+        # the following regex will split on commas while
+        # ignoring those commas that fall within quotes
+        regex = re.compile(r'''((?:[^,"']|"[^"]*"|'[^']*')+)''')
+        parts = regex.split(options)[1:-1]
+        for part in parts:
+            if "=" in part:
+                (key, value) = part.split("=", 1)
+                if key in options_dict:
+                    if isinstance(options_dict[key], list):
+                        options_dict[key].append(value)
                     else:
-                        options_dict[key] = value
-                elif part != ",":
-                    options_dict[part] = None
-        except:
-            module.fail_json(msg="invalid option string: %s" % options)
+                        options_dict[key] = [options_dict[key], value]
+                else:
+                    options_dict[key] = value
+            elif part != ",":
+                options_dict[part] = None
 
     return options_dict
 
@@ -494,6 +491,7 @@ def main():
     module.exit_json(**results)
 
 # import module snippets
-from ansible.module_utils.basic import *
-from ansible.module_utils.urls import *
+from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.urls import fetch_url
+from ansible.module_utils.pycompat24 import get_exception
 main()

@@ -50,7 +50,7 @@ options:
         required: true
     afi:
         description:
-            - Address Family Identifie.
+            - Address Family Identifier.
         required: true
         choices: ['ipv4','ipv6', 'vpnv4', 'vpnv6', 'l2vpn']
     safi:
@@ -323,6 +323,7 @@ import re
 
 from ansible.module_utils.basic import get_exception
 from ansible.module_utils.netcfg import NetworkConfig, ConfigLine
+from ansible.module_utils.shell import ShellError
 
 try:
     from ansible.module_utils.nxos import get_module

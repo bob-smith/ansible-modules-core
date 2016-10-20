@@ -28,7 +28,7 @@ description:
     by evaluating the current running-config and only pushing configuration
     commands that are not already configured.  The config source can
     be a set of commands or a template.
-deprecated: Deprecated in 2.2. Use eos_config instead
+deprecated: Deprecated in 2.2. Use nxos_config instead
 extends_documentation_fragment: nxos
 options:
   src:
@@ -90,7 +90,7 @@ EXAMPLES = """
     src: config.j2
     force: yes
 
-- name: provide the base configuration for comparision
+- name: provide the base configuration for comparison
   nxos_template:
     src: candidate_config.txt
     config: current_config.txt
@@ -105,12 +105,13 @@ updates:
 
 responses:
   description: The set of responses from issuing the commands on the device
-  retured: when not check_mode
+  returned: when not check_mode
   type: list
   sample: ['...', '...']
 """
+import ansible.module_utils.nxos
 from ansible.module_utils.netcfg import NetworkConfig, dumps
-from ansible.module_utils.nxos import NetworkModule, NetworkError
+from ansible.module_utils.network import NetworkModule
 
 def get_config(module):
     config = module.params['config'] or dict()

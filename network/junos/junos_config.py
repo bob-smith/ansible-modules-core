@@ -43,8 +43,7 @@ options:
         to load into the remote system.  The path can either be a full
         system path to the configuration file if the value starts with /
         or relative to the root of the implemented role or playbook.
-        This argument is mutually exclusive with the I(lines) and
-        I(parents) arguments.
+        This argument is mutually exclusive with the I(lines) argument.
     required: false
     default: null
     version_added: "2.2"
@@ -216,22 +215,25 @@ def diff_commands(commands, config):
     visited = set()
 
     for item in commands:
-        if not item.startswith('set') and not item.startswith('delete'):
-            raise ValueError('line must start with either `set` or `delete`')
+        if len(item) > 0:
+            if not item.startswith('set') and not item.startswith('delete'):
+                raise ValueError('line must start with either `set` or `delete`')
 
-        elif item.startswith('set') and item[4:] not in config:
-            updates.append(item)
+            elif item.startswith('set') and item[4:] not in config:
+                updates.append(item)
 
-        elif item.startswith('delete'):
-            for entry in config:
-                if entry.startswith(item[7:]) and item not in visited:
-                    updates.append(item)
-                    visited.add(item)
+            elif item.startswith('delete'):
+                for entry in config:
+                    if entry.startswith(item[7:]) and item not in visited:
+                        updates.append(item)
+                        visited.add(item)
 
     return updates
 
 def load_config(module, result):
     candidate =  module.params['lines'] or module.params['src']
+    if isinstance(candidate, basestring):
+        candidate = candidate.split('\n')
 
     kwargs = dict()
     kwargs['comment'] = module.params['comment']

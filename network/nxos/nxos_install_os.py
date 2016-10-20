@@ -29,14 +29,14 @@ notes:
       of failure and check actual module results. See EXAMPLE for more about
       this. The first task on the rescue block is needed to make sure the
       device has completed all checks and it started to reboot. The second
-      task is needed to wait the device to come back up. Last two tasks are
-      used to verify the installation process's been successful.
+      task is needed to wait for the device to come back up. The last two tasks
+      are used to verify the installation process was successful.
     - Do not include full file paths, just the name of the file(s) stored on
       the top level flash directory.
     - You must know if your platform supports taking a kickstart image as a
       parameter. If supplied but not supported, errors may occur.
     - This module attempts to install the software immediately,
-      wich may trigger a reboot.
+      which may trigger a reboot.
     - In check mode, the module tells you if the current boot images are set
       to the desired images.
 author:
@@ -364,7 +364,7 @@ def set_boot_options(module, image_name, kickstart=None):
     Args:
         The main system image file name.
     Keyword Args: many implementors may choose
-        to supply a kickstart parameter to specicify a kickstart image.
+        to supply a kickstart parameter to specify a kickstart image.
     """
     commands = ['terminal dont-ask']
     if kickstart is None:
@@ -400,6 +400,7 @@ def main():
         set_boot_options(module,
                          system_image_file,
                          kickstart=kickstart_image_file)
+        install_state = get_boot_options(module)
 
         if not already_set(install_state,
                            system_image_file,

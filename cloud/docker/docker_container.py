@@ -124,7 +124,8 @@ options:
     required: false
   exposed_ports:
     description:
-      - List of additional container ports to expose for port mappings or links.
+      - List of additional container ports which informs Docker that the container
+        listens on the specified network ports at runtime.
         If the port is already exposed using EXPOSE in a Dockerfile, it does not
         need to be exposed again.
     default: null
@@ -289,7 +290,7 @@ options:
     required: false
   pid_mode:
     description:
-      - Set the PID namespace mode for the container. Currenly only supports 'host'.
+      - Set the PID namespace mode for the container. Currently only supports 'host'.
     default: null
     required: false
   privileged:
@@ -361,7 +362,7 @@ options:
     description:
       - Size of `/dev/shm`. The format is `<number><unit>`. `number` must be greater than `0`.
         Unit is optional and can be `b` (bytes), `k` (kilobytes), `m` (megabytes), or `g` (gigabytes).
-      - Ommitting the unit defaults to bytes. If you omit the size entirely, the system uses `64m`.
+      - Omitting the unit defaults to bytes. If you omit the size entirely, the system uses `64m`.
     default: null
     required: false
   security_opts:
@@ -411,7 +412,7 @@ options:
     description:
       - If true, skip image verification.
     default: false
-    requried: false
+    required: false
   tty:
     description:
       - Allocate a psuedo-TTY.
@@ -514,7 +515,7 @@ EXAMPLES = '''
     image: ubuntu:14.04
     command: sleep infinity 
 
-- name: Stop a contianer
+- name: Stop a container
   docker_container:
     name: mycontainer
     state: stopped
@@ -1799,7 +1800,7 @@ class ContainerManager(DockerBaseClass):
             self.results['actions'].append(dict(added_to_network=diff['parameter']['name'], network_parameters=params))
             if not self.check_mode:
                 try:
-                    self.log("Connecting conainer to network %s" % diff['parameter']['id'])
+                    self.log("Connecting container to network %s" % diff['parameter']['id'])
                     self.log(params, pretty_print=True)
                     self.client.connect_container_to_network(container.Id, diff['parameter']['id'], **params)
                 except Exception as exc:
@@ -1965,7 +1966,7 @@ def main():
         privileged=dict(type='bool', default=False),
         published_ports=dict(type='list', aliases=['ports']),
         pull=dict(type='bool', default=False),
-        purge_networks=dict(type='bool', deault=False),
+        purge_networks=dict(type='bool', default=False),
         read_only=dict(type='bool', default=False),
         recreate=dict(type='bool', default=False),
         restart=dict(type='bool', default=False),
