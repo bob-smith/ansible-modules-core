@@ -12,6 +12,7 @@ trap 'rm -rf "${build_dir}"' EXIT
 git clone "https://github.com/ansible/ansible.git" "${build_dir}" --recursive
 cd "${build_dir}"
 git checkout stable-2.2
+git submodule update --init
 cd "${source_root}"
 source "${build_dir}/hacking/env-setup"
 
